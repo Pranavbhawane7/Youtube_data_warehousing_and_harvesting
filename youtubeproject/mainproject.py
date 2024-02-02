@@ -29,7 +29,7 @@ with st.sidebar:
 
 # Bridging a connection with MongoDB Atlas and Creating a new database(youtube_data)
 client = pymongo.MongoClient("localhost:27017")
-db = client.Youtube_Data_Arun
+db = client.Youtube_data_Pranav  
 # CONNECTING WITH MYSQL DATABASE
 mydb = sql.connect(host="127.0.0.1",
                    user="root",
@@ -395,4 +395,4 @@ if selected == "View":
 
         
         
-    
+# // Thank you //

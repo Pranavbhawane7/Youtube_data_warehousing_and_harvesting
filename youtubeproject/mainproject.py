@@ -9,23 +9,33 @@ from PIL import Image
 
 # SETTING PAGE CONFIGURATIONS
 icon = Image.open("C:\\Users\\91888\\Desktop\\guvi_projects\\youtubeproject\\Youtube_logo.png")
-st.set_page_config(page_title= "Youtube Data Harvesting and Warehousing | By Pranav Bhawane",
-                   page_icon= icon,
-                   layout= "wide",
-                   initial_sidebar_state= "expanded",
-                   menu_items={'About': """# This app is created by *Pranav Bhawane!*"""})
+st.set_page_config(
+    page_title="Youtube Data Harvesting and Warehousing | By Pranav Bhawane",
+    page_icon=icon,
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={'About': """# This app is created by *Pranav Bhawane!*"""}
+)
 
 # CREATING OPTION MENU
 with st.sidebar:
-    selected = option_menu(None, ["Home","Extract & Transform","View"], 
-                           icons=["house-door-fill","tools","card-text"],
-                           default_index=0,
-                           orientation="vertical",
-                           styles={"nav-link": {"font-size": "30px", "text-align": "centre", "margin": "0px", 
-                                                "--hover-color": "#33A5FF"},
-                                   "icon": {"font-size": "30px"},
-                                   "container" : {"max-width": "6000px"},
-                                   "nav-link-selected": {"background-color": "#33A5FF"}})
+    # Set a custom font style
+    st.markdown(
+        "<style> .reportview-container { font-family: 'Helvetica', sans-serif; }</style>",
+        unsafe_allow_html=True
+    )
+
+    # Set a custom background color for the sidebar
+    st.markdown(
+        "<style> .sidebar .sidebar-content { background-color: #f0f0f0; }</style>",
+        unsafe_allow_html=True
+    )
+
+    selected = st.radio(
+        "Navigation",
+        ["Home", "Extract & Transform", "View"],
+        index=0
+    )
 
 # Bridging a connection with MongoDB Atlas and Creating a new database(youtube_data)
 client = pymongo.MongoClient("localhost:27017")
@@ -169,13 +179,13 @@ if selected == "Home":
     
 # EXTRACT AND TRANSFORM PAGE
 if selected == "Extract & Transform":
-    tab1,tab2 = st.tabs(["$\huge 📝 EXTRACT $", "$\huge🚀 TRANSFORM $"])
+    tab1,tab2 = st.tabs(["$ EXTRACT $","$ TRANSFORM $"])
     
     # EXTRACT TAB
     with tab1:
         st.markdown("#    ")
-        st.write("### Enter YouTube Channel_ID below :")
-        ch_id = st.text_input("Hint : Goto channel's home page > Right click > View page source > Find channel_id").split(',')
+        st.write("### Enter YouTube Channel ID below :")
+        ch_id = st.text_input("Hint : Goto channel's home page > Right click > View page source > Find channel_id").split(' , ')
 
         if ch_id and st.button("Extract Data"):
             ch_details = get_channel_details(ch_id)
@@ -214,20 +224,27 @@ if selected == "Extract & Transform":
         
     def insert_into_channels():
                     collections = db.channel_details
-                    query = """INSERT INTO channels VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"""
+                    query = """INSERT INTO channels (channel_id, channel_name, channel_type, channel_views, 
+                    channel_description, channel_status) 
+                    VALUES(%s,%s,%s,%s,%s,%s)"""
                 
-                    for i in collections.find({"channel_name" : user_inp},{'_id' : 0}):
-                        mycursor.execute(query,tuple(i.values()))
-                    mydb.commit()
+                    for item in collections.find({"channel_name" : user_inp}):
+                         mycursor.execute(query, (
+                             item['channel_id'], item['channel_name'], item['channel_type'], item['channel_views'],
+                             item['channel_description'], item['channel_status']))
+                         mydb.commit()
                 
     def insert_into_videos():
             collections1 = db.video_details
-            query1 = """INSERT INTO videos VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+            query1 = """INSERT INTO videos (Video_id, Playlist_id, Video_name, Video_description, Published_date, 
+             View_count, Like_count, Dislike_count, Favorite_count, Comment_count, Duration, Thumbnail, 
+             Caption_Status)
+             VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
 
-            for i in collections1.find({"channel_name" : user_inp},{'_id' : 0}):
-                values = [str(val).replace("'", "''").replace('"', '""') if isinstance(val, str) else val for val in i.values()]
-                mycursor.execute(query1, tuple(values))
-                mydb.commit()
+            for item in collections1.find({"Channel_name": user_inp}):
+                 values = [str(val).replace("'", "''").replace('"', '""') if isinstance(val, str) else val for val in item.values()]
+                 mycursor.execute(query1, tuple(values))
+                 mydb.commit()
 
     def insert_into_comments():
             collections1 = db.video_details
@@ -394,6 +411,6 @@ if selected == "View":
                     )
         st.plotly_chart(fig,use_container_width=True)
 
-        
+      
         
 # // Thank you //

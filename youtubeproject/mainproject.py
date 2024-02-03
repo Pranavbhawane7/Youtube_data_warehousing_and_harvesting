@@ -40,7 +40,7 @@ mydb = sql.connect(host="localhost",
 mycursor = mydb.cursor(buffered=True)
 
 # BUILDING CONNECTION WITH YOUTUBE API
-api_key = "AIzaSyDQYpHKd36QOoBloxRsemSzSITMepCzoTU" #"AIzaSyDQYpHKd36QOoBloxRsemSzSITMepCzoTU" 
+api_key = "AIzaSyBPNnFfQVvmcwfqbc7Ipxhhc0nPrJKGRAs" #"AIzaSyDQYpHKd36QOoBloxRsemSzSITMepCzoTU" 
 youtube = build('youtube','v3',developerKey=api_key)
 
 
@@ -293,7 +293,7 @@ if selected == "View":
                             ORDER BY views DESC
                             LIMIT 10""")
         df = pd.DataFrame(mycursor.fetchall(),columns=mycursor.column_names)
-        
+
         st.write(df)
         st.write("### :green[Top 10 most viewed videos :]")
         fig = px.bar(df,

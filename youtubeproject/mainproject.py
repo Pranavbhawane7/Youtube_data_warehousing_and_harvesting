@@ -8,7 +8,7 @@ from googleapiclient.discovery import build
 from PIL import Image
 
 # SETTING PAGE CONFIGURATIONS
-icon = Image.open("C:\Users\91888\Desktop\guvi_projects\youtubeproject\Youtube_logo.png")
+icon = Image.open("C:\\Users\\91888\\Desktop\\guvi_projects\\youtubeproject\\Youtube_logo.png")
 st.set_page_config(page_title= "Youtube Data Harvesting and Warehousing | By Pranav Bhawane",
                    page_icon= icon,
                    layout= "wide",
@@ -31,7 +31,7 @@ with st.sidebar:
 client = pymongo.MongoClient("localhost:27017")
 db = client.Youtube_data_Pranav  
 # CONNECTING WITH MYSQL DATABASE
-mydb = sql.connect(host="127.0.0.1",
+mydb = sql.connect(host="localhost",
                    user="root",
                    password="Pranav#77",
                    database= "youtube",
@@ -156,7 +156,7 @@ def channel_names():
 # HOME PAGE
 if selected == "Home":
     # Title Image
-    st.image("C:\Users\91888\Desktop\guvi_projects\youtubeproject\Title.png")
+    st.image("C:\\Users\\91888\\Desktop\\guvi_projects\\youtubeproject\\Title.png")
     col1,col2 = st.columns(2,gap= 'medium')
     col1.markdown("## :blue[Domain] : Social Media")
     col1.markdown("## :blue[Technologies used] : Python,MongoDB, Youtube Data API, MySql, Streamlit")

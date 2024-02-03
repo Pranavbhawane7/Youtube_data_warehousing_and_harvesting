@@ -40,7 +40,7 @@ mydb = sql.connect(host="localhost",
 mycursor = mydb.cursor(buffered=True)
 
 # BUILDING CONNECTION WITH YOUTUBE API
-api_key = "AIzaSyBPNnFfQVvmcwfqbc7Ipxhhc0nPrJKGRAs" #"AIzaSyDQYpHKd36QOoBloxRsemSzSITMepCzoTU" 
+api_key = "AIzaSyBPNnFfQVvmcwfqbc7Ipxhhc0nPrJKGRAs" #"AIzaSyBPNnFfQVvmcwfqbc7Ipxhhc0nPrJKGRAs" 
 youtube = build('youtube','v3',developerKey=api_key)
 
 

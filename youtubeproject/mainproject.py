@@ -293,6 +293,7 @@ if selected == "View":
                             ORDER BY views DESC
                             LIMIT 10""")
         df = pd.DataFrame(mycursor.fetchall(),columns=mycursor.column_names)
+        
         st.write(df)
         st.write("### :green[Top 10 most viewed videos :]")
         fig = px.bar(df,

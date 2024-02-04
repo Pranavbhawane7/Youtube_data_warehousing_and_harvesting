@@ -396,20 +396,19 @@ if selected == "View":
         st.plotly_chart(fig,use_container_width=True)
         
     elif questions == '10. Which videos have the highest number of comments, and what are their corresponding channel names?':
-        mycursor.execute("""SELECT channel_name AS Channel_Name,Video_id AS Video_ID,Comment_count AS Comments
-                            FROM videos
-                            ORDER BY comments DESC
-                            LIMIT 10""")
-        df = pd.DataFrame(mycursor.fetchall(),columns=mycursor.column_names)
-        st.write(df)
-        st.write("### :green[Videos with most comments :]")
-        fig = px.bar(df,
-                     x=mycursor.column_names[1],
-                     y=mycursor.column_names[2],
-                     orientation='v',
-                     color=mycursor.column_names[0]
-                    )
-        st.plotly_chart(fig,use_container_width=True)
+        mycursor.execute("""SELECT channel_name AS Channel_Name, Video_id AS Video_ID, Comment_count AS Comments
+                        FROM videos
+                        ORDER BY comments DESC
+                        LIMIT 10""")
+    df = pd.DataFrame(mycursor.fetchall(), columns=mycursor.column_names)
+
+    st.write(df)
+
+    st.write("### :green[Videos with most comments :]")
+
+    fig = px.bar(df, x='Video_ID', y='Comments', color='Channel_Name', labels={'Video_ID': 'Video ID', 'Comments': 'Number of Comments'})
+    st.plotly_chart(fig, use_container_width=True)
+
 
       
         
